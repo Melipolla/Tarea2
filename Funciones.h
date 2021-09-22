@@ -10,22 +10,22 @@ typedef struct{
     int precio;
 }Producto;
 
-void importarArchivo(HashMap mapaNombre, HashMap mapaMarca, HashMap mapaTipo, FILE archivo);
+void importarArchivo(HashMap * mapaNombre, HashMap * mapaMarca, HashMap*  mapaTipo, FILE * archivo);
 
-void exportarArchivo(HashMap mapaNombre, HashMap mapaMarca, HashMap mapaTipo);
+void exportarArchivo(HashMap * mapaNombre, HashMap * mapaMarca, HashMap * mapaTipo);
 
-void agregarProducto(HashMap mapaNombre, HashMap mapaMarca, HashMap mapaTipo);
+void agregarProducto(HashMap * mapaNombre, HashMap * mapaMarca, HashMap * mapaTipo);
 
-void buscarTipo(HashMap mapaTipo);
+void buscarTipo(HashMap * mapaTipo);
 
-void buscarMarca(HashMap mapaMarca);
+void buscarMarca(HashMap * mapaMarca);
 
-void buscarNombre(HashMap mapaNombre);
+void buscarNombre(HashMap * mapaNombre);
 
-void mostrarProductos(HashMap mapaNombre, HashMap mapaMarca, HashMap mapaTipo);
+void mostrarProductos(HashMap * mapaNombre, HashMap * mapaMarca, HashMap * mapaTipo);
 
-void agregarCarro(HashMap mapaNombre, HashMap mapaMarca, HashMap mapaTipo);
+void agregarCarro(HashMap * mapaNombre, HashMap * mapaMarca, HashMap * mapaTipo);
 
-void pagarCarro(HashMap mapaNombre, HashMap mapaMarca, HashMap mapaTipo);
+void pagarCarro(HashMap * mapaNombre, HashMap * mapaMarca, HashMap * mapaTipo);
 
 #endif

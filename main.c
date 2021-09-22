@@ -36,11 +36,11 @@ int main(){
         }
         fflush(stdin);
         switch (menu){
-       /* case 1:
+        case 1:
             importarArchivo(mapaNombre, mapaMarca, mapaTipo, archivo);
             break;
 
-        case 2:
+        /*case 2:
             exportarArchivo(mapaNombre, mapaMarca, mapaTipo);
             break; */
 
@@ -48,19 +48,19 @@ int main(){
             agregarProducto(mapaNombre, mapaMarca, mapaTipo);
             break;
 
-        case 4:
+        /*case 4:
             buscarTipo(mapaTipo);
             break;
 
-        /*case 5:
+        case 5:
             buscarMarca(mapaMarca);
-            break;
+            break;*/
 
         case 6:
             buscarNombre(mapaNombre);
             break;
 
-        case 7:
+        /*case 7:
             mostrarProductos(mapaNombre, mapaMarca, mapaTipo);
             break;
 

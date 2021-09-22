@@ -87,14 +87,21 @@ void importarArchivo(HashMap * mapaNombre, HashMap * mapaMarca, HashMap * mapaTi
             insertMap(mapa, strdup(new->nombre), new);  
         }
     }
+    printf("Archivo importado correctamente \n");
 }
 
 void agregarProducto(HashMap * mapaNombre, HashMap * mapaMarca, HashMap * mapaTipo){
     Producto * new = (Producto *)malloc(sizeof(Producto));
+    printf("ingrese el nombre del producto a agregar\n");
     gets(new->nombre);
+    printf("ingrese la marca del producto a agregar\n");
     gets(new->marca);
+    printf("ingrese el tipo de producto a agregar\n");
     gets(new->tipo);
-    scanf("%i %i", &new->stock, &new->precio);
+    printf("ingrese el stock del producto a agregar\n");
+    scanf("%i", &new->stock);
+    printf("ingrese el precio del producto a agregar\n");
+    scanf("%i", &new->precio);
     Producto * buscado = searchMap(mapaNombre, new->nombre);
     if(buscado == NULL){
         insertMap(mapaNombre, strdup(new->nombre), new);
@@ -132,17 +139,18 @@ void agregarProducto(HashMap * mapaNombre, HashMap * mapaMarca, HashMap * mapaTi
 
 void buscarNombre(HashMap * mapaNombre){
     char buscado[60];
+    printf("Ingrese el nombre del producto\n");
     gets(buscado);
     Producto * primero = firstMap(mapaNombre);
     int flag = 0;
     while(primero != NULL){
         if(strcmp(buscado,primero->nombre) == 0){
-            printf("%s %s %s %i %i", primero->nombre, primero->marca, primero->tipo, primero->stock, primero->precio);
+            printf("%s %s %s %i %i\n", primero->nombre, primero->marca, primero->tipo, primero->stock, primero->precio);
             flag = 1;
         }
         primero = nextMap(mapaNombre);
     }
-    if (flag == 0) printf("No se encuentra el producto");
+    if (flag == 0) printf("No se encuentra el producto\n");
 }
 
 /*void buscarTipo(HashMap mapaTipo){
