@@ -4,8 +4,13 @@
 #include "Funciones.h"
 #include "hashmap.h"
 
+
+
 int main(){
-    HashMap * mapaUsuario = createMap(100);
+    long cap = 100;
+    HashMap * mapaNombre = createMap(cap);
+    HashMap * mapaTipo = createMap(cap);
+    HashMap * mapaMarca = createMap(cap);
     int menu = 1;
     FILE * archivo;
 
@@ -32,44 +37,42 @@ int main(){
         fflush(stdin);
         switch (menu){
        /* case 1:
-            importarArchivo(ListaUsuario, archivo);
+            importarArchivo(mapaNombre, mapaMarca, mapaTipo, archivo);
             break;
 
         case 2:
-            importarArchivo(ListaUsuario, archivo);
+            exportarArchivo(mapaNombre, mapaMarca, mapaTipo);
             break; */
 
         case 3:
-            importarArchivo(ListaUsuario, archivo);
+            agregarProducto(mapaNombre, mapaMarca, mapaTipo);
             break;
 
         case 4:
-            importarArchivo(ListaUsuario, archivo);
+            buscarTipo(mapaTipo);
             break;
 
         /*case 5:
-            importarArchivo(ListaUsuario, archivo);
+            buscarMarca(mapaMarca);
             break;
 
         case 6:
-            importarArchivo(ListaUsuario, archivo);
+            buscarNombre(mapaNombre);
             break;
 
         case 7:
-            importarArchivo(ListaUsuario, archivo);
+            mostrarProductos(mapaNombre, mapaMarca, mapaTipo);
             break;
 
         case 8:
-            importarArchivo(ListaUsuario, archivo);
+             agregarCarro(mapaNombre, mapaMarca, mapaTipo);
             break;
 
         case 9:
-            importarArchivo(ListaUsuario, archivo);
+            pagarCarro(mapaNombre, mapaMarca, mapaTipo);
             break;*/              
         }
     }
-
-
 
     return 0;
 }

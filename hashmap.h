@@ -1,27 +1,30 @@
-#ifndef hashmap_h
-#define hashmap_h
+//
+//  HashMap.h
+//  TablaHashLab
+//
+//  Created by Matias Barrientos on 11-08-18.
+//  Copyright © 2018 Matias Barrientos. All rights reserved.
+//
 
-typedef struct Pair Pair;
+#ifndef HashMap_h
+#define HashMap_h
+
 typedef struct HashMap HashMap;
-
-Pair * createPair( char * key,  void * value);
-
-long hash( char * key, long capacity);
-
-int is_equal(void* key1, void* key2);
-
-void enlarge(HashMap * map);
-
-void insertMap(HashMap * map, char * key, void * value);
 
 HashMap * createMap(long capacity);
 
-void eraseMap(HashMap * map,  char * key);
+void insertMap(HashMap * table, char * key, void * value);
 
-Pair * searchMap(HashMap * map,  char * key);
+void eraseMap(HashMap * table, char * key);
 
-Pair * firstMap(HashMap * map);
+void * searchMap(HashMap * table, char * key);
 
-Pair * nextMap(HashMap * map);
+void * firstMap(HashMap * table);
 
-#endif
+void * nextMap(HashMap * table);
+
+void enlarge(HashMap * map);
+
+long getSizeMap(HashMap * map);
+
+#endif /* HashMap_h */

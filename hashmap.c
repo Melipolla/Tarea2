@@ -7,8 +7,11 @@
 
 typedef struct Pair Pair;
 typedef struct HashMap HashMap;
-int enlarge_called=0;
 
+struct Pair {
+     char * key;
+     void * value;
+};
 
 struct HashMap {
     Pair ** buckets;
@@ -39,7 +42,7 @@ int is_equal(void* key1, void* key2){
     return 0;
 }
 
-
+void enlarge(HashMap * map);
 
 void insertMap(HashMap * map, char * key, void * value) {
     long idx = hash(key, map->capacity);
@@ -110,7 +113,7 @@ void eraseMap(HashMap * map,  char * key) {
 
 }
 
-Pair * searchMap(HashMap * map,  char * key) {   
+void * searchMap(HashMap * map,  char * key) {   
     long idx = hash(key, map->capacity);
     while (map->buckets[idx] != NULL && is_equal(map->buckets[idx]->key, key) == 0) 
         idx = (idx + 1) % map->capacity;
@@ -119,10 +122,10 @@ Pair * searchMap(HashMap * map,  char * key) {
     
     map->current = idx;
     
-    return (void *)map->buckets[idx];
+    return (void *)map->buckets[idx]->value;
 }
 
-Pair * firstMap(HashMap * map) {
+void * firstMap(HashMap * map) {
     if (map == NULL || map->buckets == NULL) return NULL;
     
     long i;
@@ -130,13 +133,13 @@ Pair * firstMap(HashMap * map) {
     for (i = 0; i < map->capacity; i++) {
         if (map->buckets[i] != NULL && map->buckets[i]->key != NULL) {
             map->current = i;
-            return map->buckets[i];
+            return map->buckets[i]->value;
         }
     }
     return NULL;
 }
 
-Pair * nextMap(HashMap * map) {
+void * nextMap(HashMap * map) {
     if (map == NULL || map->buckets == NULL) return NULL;
     
     long i;
@@ -144,9 +147,13 @@ Pair * nextMap(HashMap * map) {
     for (i = (map->current + 1); i < map->capacity; i++) {
         if (map->buckets[i] != NULL && map->buckets[i]->key != NULL) {
             map->current = i;
-            return map->buckets[i];
+            return map->buckets[i]->value;
         }
     }
     
     return NULL;
+}
+
+long getSizeMap(HashMap * map){
+    return map->size;
 }
