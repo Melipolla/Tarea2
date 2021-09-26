@@ -2,7 +2,9 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h>
+#include <ctype.h>
 #include "hashmap.h"
+#include "list.h"
 
 typedef struct{
     char nombre[60];
@@ -11,6 +13,13 @@ typedef struct{
     int stock;
     int precio;
 }Producto;
+
+char * minuscula (char * str){
+    for(int i = 0; str[i]; i++){
+        str[i] = tolower(str[i]);
+    }
+    return str;
+}
 
 char *get_csv_field (char * tmp, int k) {
     int open_mark = 0;
@@ -64,9 +73,9 @@ void importarArchivo(HashMap * mapaNombre, HashMap * mapaMarca, HashMap * mapaTi
     char * linea = (char*)malloc(1024*sizeof(char));
     while(fgets(linea,1023,archivo) != NULL){
         Producto * new = (Producto *)malloc(sizeof(Producto));
-        strcpy(new->nombre, get_csv_field(linea,0));
-        strcpy(new->marca, get_csv_field(linea,1));
-        strcpy(new->tipo, get_csv_field(linea,2));
+        strcpy(new->nombre, minuscula(get_csv_field(linea,0)));
+        strcpy(new->marca, minuscula(get_csv_field(linea,1)));
+        strcpy(new->tipo, minuscula(get_csv_field(linea,2)));
         new->stock = atoi(get_csv_field(linea,3));
         new->precio = atoi(get_csv_field(linea,4));
         insertMap(mapaNombre, strdup(new->nombre), new);
@@ -94,10 +103,13 @@ void agregarProducto(HashMap * mapaNombre, HashMap * mapaMarca, HashMap * mapaTi
     Producto * new = (Producto *)malloc(sizeof(Producto));
     printf("ingrese el nombre del producto a agregar\n");
     gets(new->nombre);
+    minuscula(new->nombre);
     printf("ingrese la marca del producto a agregar\n");
     gets(new->marca);
+    minuscula(new->marca);
     printf("ingrese el tipo de producto a agregar\n");
     gets(new->tipo);
+    minuscula(new->tipo);
     printf("ingrese el stock del producto a agregar\n");
     scanf("%i", &new->stock);
     printf("ingrese el precio del producto a agregar\n");
@@ -122,16 +134,12 @@ void agregarProducto(HashMap * mapaNombre, HashMap * mapaMarca, HashMap * mapaTi
         }else{
             HashMap * mapa = searchMap(mapaTipo, new->tipo);
             insertMap(mapa, strdup(new->nombre), new);  
-        }    
+        }
+        printf("Producto agregado correctamente");    
     }
     if(buscado != NULL){
-        buscado->stock++;
-        HashMap * mapaMarcaChikito = searchMap(mapaMarca, buscado->marca);
-        Producto * marcaBuscada = searchMap(mapaMarcaChikito, buscado->nombre);
-        marcaBuscada->stock++;
-        HashMap * mapaTipoChikito = searchMap(mapaTipo, buscado->tipo);
-        Producto * tipoBuscada = searchMap(mapaTipoChikito, buscado->nombre);
-        tipoBuscada->stock++;
+        buscado->stock = (buscado->stock) + (new->stock);
+        printf("Stock aumentado correctamente");
     }
     
 
@@ -141,49 +149,78 @@ void buscarNombre(HashMap * mapaNombre){
     char buscado[60];
     printf("Ingrese el nombre del producto\n");
     gets(buscado);
-    Producto * primero = firstMap(mapaNombre);
-    int flag = 0;
-    while(primero != NULL){
-        if(strcmp(buscado,primero->nombre) == 0){
-            printf("%s %s %s %i %i\n", primero->nombre, primero->marca, primero->tipo, primero->stock, primero->precio);
-            flag = 1;
-        }
-        primero = nextMap(mapaNombre);
-    }
-    if (flag == 0) printf("No se encuentra el producto\n");
+    minuscula(buscado);
+    Producto * produc = searchMap(mapaNombre, buscado);
+    if(produc == NULL) printf("No se encuentra el producto\n");
+    else printf("%s %s %s %i %i\n", produc->nombre, produc->marca, produc->tipo, produc->stock, produc->precio);
 }
 
-/*void buscarTipo(HashMap mapaTipo){
+void buscarTipo(HashMap * mapaTipo){
     char buscado[20];
+    printf("Ingrese el tipo del producto\n");
     gets(buscado);
-    HashMap * primero = firstMap(mapaTipo);
-    int flag = 0;
-    while(primero != NULL){
-        Producto * primerProd = firstMap(primero);
-        while (primerProd != NULL){}
-            if(strcmp(primerProd->tipo, buscado) == 0){
-                printf("%s %s %s %i %i", primerProd->nombre, primerProd->marca, primerProd->tipo, primerProd->stock, primerProd->precio);
-                flag = 1;
-            }
-            primerProd = nextMap(primero);
+    minuscula(buscado);
+    HashMap * map = searchMap(mapaTipo, buscado);
+    if(map == NULL) printf("No se encuentra el tipo\n");
+    else{
+        Producto * produc = firstMap(map);
+        while(produc != NULL){
+            printf("%s %s %s %i %i\n", produc->nombre, produc->marca, produc->tipo, produc->stock, produc->precio);
+            produc = nextMap(map);
         }
-        primero = nextMap(mapaTipo);
+    }
+    
+}
+
+void buscarMarca(HashMap * mapaMarca){
+    char buscado[25];
+    printf("Ingrese la marca del producto\n");
+    gets(buscado);
+    minuscula(buscado);
+    HashMap * map = searchMap(mapaMarca, buscado);
+    if(map == NULL) printf("No se encuentra la marca\n");
+    else{
+        Producto * produc = firstMap(map);
+        while(produc != NULL){
+            printf("%s %s %s %i %i\n", produc->nombre, produc->marca, produc->tipo, produc->stock, produc->precio);
+            produc = nextMap(map);
+        }
     }
 
 }
 
-void buscarMarca(HashMap mapaMarca){
+void mostrarProductos(HashMap * mapaNombre){
+    Producto * produc = firstMap(mapaNombre);
+    while(produc != NULL){
+        printf("%s %s %s %i %i\n", produc->nombre, produc->marca, produc->tipo, produc->stock, produc->precio);
+        produc = nextMap(mapaNombre);
+    }
 
 }
 
-void mostrarProductos(HashMap mapaNombre, HashMap mapaMarca, HashMap mapaTipo){
+void agregarCarro(HashMap * mapaNombre){
+    char buscado[60];
+    printf("Ingrese el nombre del producto\n");
+    gets(buscado);
+    minuscula(buscado);
+    printf("Ingrese cuantos va a comprar \n");
+    int cant;
+    scanf("%d", &cant);
+    printf("Ingrese el nombre del carrito\n");
+    char carrito[20];
+    gets(carrito);
+    List * carro = createList();
+    Producto * prod = searchMap(mapaNombre, buscado);
+    int suma = prod->stock - cant;
+    if(suma > 0){
+        pushFront(carro, carrito);
+        pushBack(carro, prod);
+
+    }else printf("stock insuficiente\n");
+    
 
 }
 
-void agregarCarro(HashMap mapaNombre, HashMap mapaMarca, HashMap mapaTipo){
+void pagarCarro(HashMap * mapaNombre){
 
 }
-
-void pagarCarro(HashMap mapaNombre, HashMap mapaMarca, HashMap mapaTipo){
-
-}*/

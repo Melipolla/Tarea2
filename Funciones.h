@@ -22,10 +22,10 @@ void buscarMarca(HashMap * mapaMarca);
 
 void buscarNombre(HashMap * mapaNombre);
 
-void mostrarProductos(HashMap * mapaNombre, HashMap * mapaMarca, HashMap * mapaTipo);
+void mostrarProductos(HashMap * mapaNombre);
 
-void agregarCarro(HashMap * mapaNombre, HashMap * mapaMarca, HashMap * mapaTipo);
+void agregarCarro(HashMap * mapaNombre);
 
-void pagarCarro(HashMap * mapaNombre, HashMap * mapaMarca, HashMap * mapaTipo);
+void pagarCarro(HashMap * mapaNombre);
 
 #endif

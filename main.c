@@ -3,6 +3,7 @@
 #include <string.h>
 #include "Funciones.h"
 #include "hashmap.h"
+#include "list.h"
 
 
 
@@ -48,29 +49,29 @@ int main(){
             agregarProducto(mapaNombre, mapaMarca, mapaTipo);
             break;
 
-        /*case 4:
+        case 4:
             buscarTipo(mapaTipo);
             break;
 
         case 5:
             buscarMarca(mapaMarca);
-            break;*/
+            break;
 
         case 6:
             buscarNombre(mapaNombre);
             break;
 
-        /*case 7:
-            mostrarProductos(mapaNombre, mapaMarca, mapaTipo);
+        case 7:
+            mostrarProductos(mapaNombre);
             break;
 
         case 8:
-             agregarCarro(mapaNombre, mapaMarca, mapaTipo);
+             agregarCarro(mapaNombre);
             break;
 
         case 9:
-            pagarCarro(mapaNombre, mapaMarca, mapaTipo);
-            break;*/              
+            pagarCarro(mapaNombre);
+            break;          
         }
     }
 
