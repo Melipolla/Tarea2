@@ -6,6 +6,7 @@ La tarea se ejecuta ingresando el numero de operacion que se desee hacer.
 
 
 Aspectos a mejorar
+
   Alejandro Henriquez :
     -Responsabilidad de los tiempos
   
