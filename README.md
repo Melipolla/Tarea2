@@ -28,6 +28,6 @@ Aspectos a mejorar
  Puntos Premio/Castigo
   Alejandro +3
   Felipe -5
-  Rodrigo
-  Martin
+  Rodrigo 0
+  Martin 0
   Camilo +2
