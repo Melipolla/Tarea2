@@ -1,6 +1,7 @@
 #ifndef Funciones_h
 #define Funciones_h
 #include "hashmap.h"
+#include "list.h"
 
 typedef struct{
     char producto[60];
@@ -12,7 +13,7 @@ typedef struct{
 
 void importarArchivo(HashMap * mapaNombre, HashMap * mapaMarca, HashMap*  mapaTipo, FILE * archivo);
 
-void exportarArchivo(HashMap * mapaNombre, HashMap * mapaMarca, HashMap * mapaTipo);
+void exportarArchivo(HashMap * mapaNombre);
 
 void agregarProducto(HashMap * mapaNombre, HashMap * mapaMarca, HashMap * mapaTipo);
 
@@ -24,8 +25,8 @@ void buscarNombre(HashMap * mapaNombre);
 
 void mostrarProductos(HashMap * mapaNombre);
 
-void agregarCarro(HashMap * mapaNombre);
+void agregarCarro(HashMap * mapaNombre, List * listaGral);
 
-void pagarCarro(HashMap * mapaNombre);
+void pagarCarro(HashMap * mapaNombre, List * listaGral);
 
 #endif

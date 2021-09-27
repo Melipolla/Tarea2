@@ -14,6 +14,11 @@ typedef struct{
     int precio;
 }Producto;
 
+typedef struct{
+    List * lista;
+    char nombre[30];
+}Carro;
+
 char * minuscula (char * str){
     for(int i = 0; str[i]; i++){
         str[i] = tolower(str[i]);
@@ -99,6 +104,23 @@ void importarArchivo(HashMap * mapaNombre, HashMap * mapaMarca, HashMap * mapaTi
     printf("Archivo importado correctamente \n");
 }
 
+void exportarArchivo(HashMap * mapaNombre){
+    FILE * archivo = fopen("listaProductos.csv", "r+");
+    fseek(archivo, -1, SEEK_END);
+    Producto * prod = firstMap(mapaNombre);
+    while(prod != NULL){
+        fprintf(archivo, "%s, ",prod->nombre);
+        fprintf(archivo, "%s, ",prod->marca);
+        fprintf(archivo, "%s, ",prod->tipo);
+        fprintf(archivo, "%i, ",prod->stock);
+        fprintf(archivo, "%i, \n",prod->precio);
+        prod = nextMap(mapaNombre);
+    }
+    printf("archivo exportado correctamente\n");
+    fclose(archivo);
+
+}
+
 void agregarProducto(HashMap * mapaNombre, HashMap * mapaMarca, HashMap * mapaTipo){
     Producto * new = (Producto *)malloc(sizeof(Producto));
     printf("ingrese el nombre del producto a agregar\n");
@@ -135,11 +157,11 @@ void agregarProducto(HashMap * mapaNombre, HashMap * mapaMarca, HashMap * mapaTi
             HashMap * mapa = searchMap(mapaTipo, new->tipo);
             insertMap(mapa, strdup(new->nombre), new);  
         }
-        printf("Producto agregado correctamente");    
+        printf("Producto agregado correctamente\n");    
     }
     if(buscado != NULL){
         buscado->stock = (buscado->stock) + (new->stock);
-        printf("Stock aumentado correctamente");
+        printf("Stock aumentado correctamente\n");
     }
     
 
@@ -198,29 +220,72 @@ void mostrarProductos(HashMap * mapaNombre){
 
 }
 
-void agregarCarro(HashMap * mapaNombre){
+void agregarCarro(HashMap * mapaNombre, List * listaGral){
     char buscado[60];
+    char carrito[30];
+    int cant;
     printf("Ingrese el nombre del producto\n");
     gets(buscado);
     minuscula(buscado);
+    Producto * prod = searchMap(mapaNombre,buscado);
     printf("Ingrese cuantos va a comprar \n");
-    int cant;
-    scanf("%d", &cant);
+    scanf("%i", &cant);
     printf("Ingrese el nombre del carrito\n");
-    char carrito[20];
     gets(carrito);
-    List * carro = createList();
-    Producto * prod = searchMap(mapaNombre, buscado);
-    int suma = prod->stock - cant;
-    if(suma > 0){
-        pushFront(carro, carrito);
-        pushBack(carro, prod);
+    minuscula(carrito);
+    if(first(listaGral) != NULL){
+        Carro * nuevo = (Carro *)malloc(sizeof(Carro));
+        strcpy(nuevo->nombre, carrito);
+        pushFront(nuevo->lista,prod->nombre);
+        printf("Carrito %s creado con exito\n", carrito);
+    }else{
+        Carro * primero = first(listaGral);
+        int flag = 0;
+        while(primero != NULL){
+            if(strcmp(carrito,primero->nombre) == 0){
+                pushBack(primero->lista, prod->nombre);
+                flag = 1;
+                printf("Producto agregado\n");
+            }
+            primero = next(listaGral);
+        }
+        if(flag == 0){
+            Carro * nuevo = (Carro *)malloc(sizeof(Carro));
+            strcpy(nuevo->nombre, carrito);
+            pushFront(nuevo->lista,prod->nombre);
+            printf("Producto agregado correctamente\n");
+        }
+    }
 
-    }else printf("stock insuficiente\n");
     
+    
+
 
 }
 
-void pagarCarro(HashMap * mapaNombre){
-
+void pagarCarro(HashMap * mapaNombre, List * listaGral){
+    printf("Ingrese el nombre del carrito que quiera pagar\n");
+    char carrito[30];
+    gets(carrito);
+    minuscula(carrito);
+    Carro * primero = first(listaGral);
+    int flag = 0;
+    while(primero != NULL){
+        int suma;
+        if(strcmp(primero->nombre, carrito) == 0){
+            flag = 1;
+            char nombre[60];
+            strcpy(nombre, first(primero->lista));
+            while(nombre != NULL){
+                Producto * buscado = searchMap(mapaNombre, nombre);
+                suma = suma + buscado->precio;
+                printf("%s %i\n", buscado->nombre, buscado->precio);
+                strcpy(nombre, next(primero->lista));
+            }
+            printf("El precio a pagar es %d\n", suma);
+            popCurrent(listaGral);
+        }
+        primero = next(listaGral);
+    }
+    if(flag == 0)printf("El carrito no existe\n");
 }
