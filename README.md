@@ -1,6 +1,8 @@
 # Tarea2
 La tarea se ejecuta ingresando el numero de operacion que se desee hacer.
 
+La funcion de agregar productos al carro tiene un error que no conocemos porque ocurre y que causa cierre instantaneo sin poder siquiera scanear el nombre del carro.
+
 
 
 
@@ -8,7 +10,7 @@ La tarea se ejecuta ingresando el numero de operacion que se desee hacer.
 Aspectos a mejorar
 
   Alejandro Henriquez :
-    -Responsabilidad de los tiempos
+    -
   
   Felipe Arias
     -
